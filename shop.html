@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shop — FORMA Furniture</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+.shop-hero {
+  padding: 140px 0 80px; background: var(--cream);
+  text-align: center; position: relative; overflow: hidden;
+}
+.shop-hero::before {
+  content: '🪑🛋️🪵📚🛏️';
+  position: absolute; bottom: -20px; right: -20px;
+  font-size: 200px; opacity: .06; letter-spacing: -20px; pointer-events: none;
+}
+.shop-hero .eyebrow { animation: fadeUp .6s ease both; }
+.shop-hero .display-title { animation: fadeUp .6s ease .1s both; }
+.shop-hero .body-text { max-width: 480px; margin: 20px auto 0; animation: fadeUp .6s ease .2s both; }
+
+.shop-layout { display: grid; grid-template-columns: 260px 1fr; gap: 48px; align-items: start; }
+
+/* SIDEBAR */
+.sidebar { position: sticky; top: 96px; }
+.sidebar-block { margin-bottom: 36px; padding-bottom: 36px; border-bottom: 1px solid var(--border); }
+.sidebar-block:last-child { border-bottom: none; }
+.sidebar-title { font-size: 10px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: var(--ink); margin-bottom: 18px; }
+.filter-option { display: flex; align-items: center; justify-content: space-between; padding: 8px 0; cursor: pointer; transition: color var(--transition); }
+.filter-option:hover { color: var(--accent); }
+.filter-option input[type="radio"], .filter-option input[type="checkbox"] { margin-right: 10px; accent-color: var(--accent); cursor: pointer; }
+.filter-option label { font-size: 13px; cursor: pointer; flex: 1; }
+.filter-option .count { font-size: 11px; color: var(--soft); }
+.filter-option.active label { color: var(--accent); font-weight: 500; }
+
+.price-range { display: flex; gap: 8px; align-items: center; }
+.price-inp { width: 50%; padding: 9px 12px; border: 1px solid var(--border); font-family: 'Jost', sans-serif; font-size: 12px; color: var(--ink); outline: none; }
+.price-inp:focus { border-color: var(--accent); }
+.price-sep { font-size: 12px; color: var(--soft); }
+
+/* SHOP MAIN */
+.shop-toolbar {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 32px; padding-bottom: 20px; border-bottom: 1px solid var(--border);
+  flex-wrap: wrap; gap: 12px;
+}
+.results-count { font-size: 13px; color: var(--mid); }
+.results-count strong { color: var(--ink); }
+.sort-select { padding: 10px 36px 10px 14px; border: 1px solid var(--border); font-family: 'Jost', sans-serif; font-size: 13px; color: var(--ink); background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%237A756E' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat right 12px center; outline: none; cursor: pointer; -webkit-appearance: none; }
+
+.products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 2px; }
+.prod-card { background: #fff; overflow: hidden; position: relative; transition: transform .3s, box-shadow .3s; }
+.prod-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-md); z-index: 2; }
+.prod-thumb { aspect-ratio: 3/4; background: var(--cream); position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+.prod-emoji { font-size: 88px; transition: transform .6s cubic-bezier(.25,.46,.45,.94); pointer-events: none; }
+.prod-card:hover .prod-emoji { transform: scale(1.08) translateY(-4px); }
+.prod-badge { position: absolute; top: 14px; left: 14px; background: var(--accent); color: #fff; font-size: 9px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; padding: 4px 10px; }
+.prod-quick { position: absolute; bottom: 0; left: 0; right: 0; background: rgba(26,25,22,.85); color: #fff; font-family: 'Jost', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; border: none; padding: 14px; cursor: pointer; transform: translateY(100%); transition: transform .3s; }
+.prod-card:hover .prod-quick { transform: translateY(0); }
+.prod-info { padding: 22px; }
+.prod-cat { font-size: 9px; font-weight: 600; letter-spacing: 2.5px; text-transform: uppercase; color: var(--accent); margin-bottom: 6px; }
+.prod-name { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 400; margin-bottom: 8px; }
+.prod-desc { font-size: 12px; color: var(--mid); line-height: 1.7; margin-bottom: 18px; }
+.prod-foot { display: flex; align-items: center; justify-content: space-between; }
+.prod-price { font-size: 15px; color: var(--ink); }
+.prod-price s { font-size: 12px; color: var(--soft); margin-right: 6px; }
+.prod-price strong { color: var(--accent); font-weight: 500; }
+.prod-atc { padding: 9px 18px; background: var(--ink); color: #fff; font-family: 'Jost', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; border: none; cursor: pointer; transition: background var(--transition); }
+.prod-atc:hover { background: var(--accent); }
+
+.no-results { grid-column: 1/-1; text-align: center; padding: 80px 20px; color: var(--mid); }
+.no-results .nr-icon { font-size: 48px; margin-bottom: 16px; }
+.no-results h3 { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 400; margin-bottom: 8px; color: var(--ink); }
+
+/* Offer strip */
+.offer-strip {
+  background: var(--accent); color: #fff; padding: 32px 56px;
+  display: flex; align-items: center; justify-content: space-between; gap: 24px;
+  flex-wrap: wrap;
+}
+.offer-strip-text h3 { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 400; margin-bottom: 4px; }
+.offer-strip-text p { font-size: 13px; opacity: .85; }
+.offer-strip-btn { padding: 13px 28px; background: #fff; color: var(--accent); font-family: 'Jost', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; border: none; cursor: pointer; white-space: nowrap; transition: opacity var(--transition); }
+.offer-strip-btn:hover { opacity: .88; }
+
+@media (max-width: 900px) {
+  .shop-layout { grid-template-columns: 1fr; }
+  .sidebar { position: static; display: none; }
+  .sidebar.show { display: block; }
+  .filter-toggle { display: flex; }
+}
+.filter-toggle { display: none; align-items: center; gap: 8px; padding: 10px 18px; border: 1px solid var(--border); background: none; font-family: 'Jost', sans-serif; font-size: 12px; letter-spacing: 1px; cursor: pointer; transition: all var(--transition); }
+.filter-toggle:hover { background: var(--ink); color: #fff; border-color: var(--ink); }
+</style>
+</head>
+<body>
+
+<nav class="navbar" id="navbar">
+  <a class="nav-logo" href="index.html">FOR<span>M</span>A</a>
+  <ul class="nav-center">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="shop.html" class="active">Shop</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="#" onclick="openOffer();return false;">Get Best Offer</a></li>
+  </ul>
+  <div class="nav-right">
+    <a class="nav-offer-btn" href="#" onclick="openOffer();return false;">Best Offer</a>
+    <button class="nav-cart-btn" onclick="openCart()">🛒<span class="cart-badge" id="cartBadge">0</span></button>
+    <button class="nav-hamburger" id="navHam"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html">Home</a><a href="shop.html">Shop</a><a href="about.html">About</a>
+  <a href="#" onclick="openOffer();return false;">Get Best Offer</a>
+</div>
+
+<section class="shop-hero">
+  <div class="container">
+    <div class="eyebrow">Complete Collection</div>
+    <h1 class="display-title">Shop <em>All Pieces</em></h1>
+    <p class="body-text">Explore our full range of handcrafted furniture. Every piece is made to order, with your choice of finish.</p>
+  </div>
+</section>
+
+<div class="offer-strip">
+  <div class="offer-strip-text">
+    <h3>Looking for a custom quote or bulk pricing?</h3>
+    <p>Our specialists respond within 2 hours with a personalised offer.</p>
+  </div>
+  <button class="offer-strip-btn" onclick="openOffer()">Get My Best Offer →</button>
+</div>
+
+<section class="section-pad">
+  <div class="container">
+    <div class="shop-toolbar">
+      <div class="results-count"><strong id="resultCount">12</strong> products</div>
+      <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+        <button class="filter-toggle" onclick="document.querySelector('.sidebar').classList.toggle('show')">⚙ Filters</button>
+        <select class="sort-select" id="sortSelect" onchange="applyFilters()">
+          <option value="default">Sort: Featured</option>
+          <option value="price-asc">Price: Low → High</option>
+          <option value="price-desc">Price: High → Low</option>
+          <option value="name">Name A–Z</option>
+        </select>
+      </div>
+    </div>
+    <div class="shop-layout">
+      <aside class="sidebar">
+        <div class="sidebar-block">
+          <div class="sidebar-title">Category</div>
+          <div class="filter-option active" id="fcat-all" onclick="setCat('all',this)"><input type="radio" name="cat" checked> <label>All Products</label> <span class="count">12</span></div>
+          <div class="filter-option" id="fcat-Seating" onclick="setCat('Seating',this)"><input type="radio" name="cat"> <label>Seating</label> <span class="count">4</span></div>
+          <div class="filter-option" id="fcat-Tables" onclick="setCat('Tables',this)"><input type="radio" name="cat"> <label>Tables</label> <span class="count">3</span></div>
+          <div class="filter-option" id="fcat-Storage" onclick="setCat('Storage',this)"><input type="radio" name="cat"> <label>Storage</label> <span class="count">2</span></div>
+          <div class="filter-option" id="fcat-Bedroom" onclick="setCat('Bedroom',this)"><input type="radio" name="cat"> <label>Bedroom</label> <span class="count">3</span></div>
+        </div>
+        <div class="sidebar-block">
+          <div class="sidebar-title">Price Range</div>
+          <div class="price-range">
+            <input class="price-inp" type="number" id="priceMin" placeholder="₹ Min" min="0" oninput="applyFilters()">
+            <span class="price-sep">—</span>
+            <input class="price-inp" type="number" id="priceMax" placeholder="₹ Max" oninput="applyFilters()">
+          </div>
+        </div>
+        <div class="sidebar-block">
+          <div class="sidebar-title">Availability</div>
+          <div class="filter-option"><input type="checkbox" id="cbSale" onchange="applyFilters()"> <label for="cbSale">On Sale</label></div>
+          <div class="filter-option"><input type="checkbox" id="cbNew" onchange="applyFilters()"> <label for="cbNew">New Arrivals</label></div>
+        </div>
+        <div class="sidebar-block">
+          <div class="sidebar-title">Material</div>
+          <div class="filter-option"><input type="checkbox"> <label>Solid Wood</label></div>
+          <div class="filter-option"><input type="checkbox"> <label>Steel Frame</label></div>
+          <div class="filter-option"><input type="checkbox"> <label>Upholstered</label></div>
+          <div class="filter-option"><input type="checkbox"> <label>Marble Top</label></div>
+        </div>
+        <button class="btn-ink" style="width:100%;padding:13px;font-size:10px" onclick="resetFilters()">Reset Filters</button>
+      </aside>
+      <div>
+        <div class="products-grid" id="shopGrid"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CART -->
+<div class="cart-overlay" id="cartOverlay">
+  <div class="cart-drawer">
+    <div class="cart-drawer-head"><div><h2>Your Cart</h2><div class="cart-count-label" id="cartCountLabel"></div></div><button class="cart-x" onclick="closeCart()">✕</button></div>
+    <div class="cart-body" id="cartBody"></div>
+    <div class="cart-foot" id="cartFoot" style="display:none">
+      <div class="cart-subtotals">
+        <div class="cart-line"><span>Subtotal</span><span id="cartSub">₹0</span></div>
+        <div class="cart-line"><span>Delivery</span><span id="cartDel">₹2,500</span></div>
+        <div class="cart-line grand"><span>Total</span><span id="cartTotal">₹0</span></div>
+      </div>
+      <button class="btn-checkout" onclick="beginCheckout()">Begin Checkout →</button>
+      <button class="btn-continue" onclick="closeCart()">Continue Shopping</button>
+    </div>
+  </div>
+</div>
+
+<!-- CHECKOUT -->
+<div class="modal-veil" id="checkoutVeil">
+  <div class="checkout-box">
+    <div class="co-head"><div><h2>Checkout</h2><p>Secure · Encrypted · Fast</p></div><button class="modal-x" onclick="closeCheckout()">✕</button></div>
+    <div class="co-steps"><div class="co-step active" id="coTab1">1. Delivery</div><div class="co-step" id="coTab2">2. Payment</div><div class="co-step" id="coTab3">3. Review</div></div>
+    <div class="co-panel active" id="coPanel1">
+      <div class="co-section-label">Contact</div>
+      <div class="form-row-2">
+        <div class="co-field"><label class="co-lbl">First Name</label><input class="co-inp" id="coFName" placeholder="Arjun"></div>
+        <div class="co-field"><label class="co-lbl">Last Name</label><input class="co-inp" id="coLName" placeholder="Mehta"></div>
+        <div class="co-field span2"><label class="co-lbl">Email</label><input class="co-inp" id="coEmail" type="email" placeholder="arjun@email.com"></div>
+        <div class="co-field span2"><label class="co-lbl">Phone</label><input class="co-inp" id="coPhone" type="tel" placeholder="+91 98765 43210"></div>
+      </div>
+      <div class="co-section-label" style="margin-top:8px">Delivery Address</div>
+      <div class="form-row-2">
+        <div class="co-field span2"><label class="co-lbl">Address</label><input class="co-inp" id="coAddr1" placeholder="House / Flat No., Street"></div>
+        <div class="co-field"><label class="co-lbl">City</label><input class="co-inp" id="coCity" placeholder="Mumbai"></div>
+        <div class="co-field"><label class="co-lbl">PIN</label><input class="co-inp" placeholder="400001"></div>
+        <div class="co-field span2"><label class="co-lbl">State</label><select class="co-sel"><option>— Select —</option><option>Maharashtra</option><option>Delhi</option><option>Karnataka</option><option>Tamil Nadu</option><option>Gujarat</option><option>Jharkhand</option><option>Other</option></select></div>
+      </div>
+      <button class="btn-primary-full" onclick="goCoNext(2)">Continue to Payment →</button>
+    </div>
+    <div class="co-panel" id="coPanel2">
+      <div class="co-section-label">Payment</div>
+      <div class="pay-grid">
+        <div class="pay-tile selected" onclick="selectPayment(this,'card')"><span class="pay-icon">💳</span>Card</div>
+        <div class="pay-tile" onclick="selectPayment(this,'upi')"><span class="pay-icon">📱</span>UPI</div>
+        <div class="pay-tile" onclick="selectPayment(this,'emi')"><span class="pay-icon">🏦</span>EMI</div>
+        <div class="pay-tile" onclick="selectPayment(this,'cod')"><span class="pay-icon">💵</span>COD</div>
+      </div>
+      <div id="cardFields"><div class="form-row-2"><div class="co-field span2"><label class="co-lbl">Card Number</label><input class="co-inp" placeholder="0000  0000  0000  0000" maxlength="19" oninput="formatCardNum(this)"></div><div class="co-field"><label class="co-lbl">Expiry</label><input class="co-inp" placeholder="MM / YY" maxlength="7" oninput="formatExpiry(this)"></div><div class="co-field"><label class="co-lbl">CVV</label><input class="co-inp" type="password" placeholder="•••" maxlength="4"></div><div class="co-field span2"><label class="co-lbl">Name on Card</label><input class="co-inp" placeholder="ARJUN MEHTA"></div></div></div>
+      <div id="upiFields" style="display:none"><div class="co-field"><label class="co-lbl">UPI ID</label><input class="co-inp" placeholder="yourname@upi"></div></div>
+      <div id="emiFields" style="display:none"><div class="co-field"><label class="co-lbl">EMI Plan</label><select class="co-sel"><option>3 months — No cost EMI</option><option>6 months</option><option>12 months — 1.5% p.m.</option></select></div></div>
+      <div id="codFields" style="display:none;padding:16px;background:var(--cream);font-size:13px;color:var(--mid);line-height:1.8;margin-bottom:20px;">Cash on Delivery available. ₹500 booking fee at confirmation. Balance on delivery.</div>
+      <button class="btn-primary-full" onclick="goCoNext(3)">Review Order →</button>
+      <button class="btn-ghost-full" onclick="goCoNext(1)">← Back</button>
+    </div>
+    <div class="co-panel" id="coPanel3">
+      <div class="co-section-label">Order Summary</div>
+      <div class="order-review-list" id="reviewList"></div>
+      <div class="co-section-label">Delivery To</div>
+      <div class="delivery-review" id="deliverySummary"></div>
+      <button class="btn-primary-full" onclick="placeOrder()">Place Order & Pay →</button>
+      <button class="btn-ghost-full" onclick="goCoNext(2)">← Back</button>
+    </div>
+    <div class="co-panel" id="coPanelS"><div class="success-wrap"><div class="s-icon">🎉</div><h2>Order Placed!</h2><p>Thank you! Our team will call to schedule your delivery.</p><div class="order-chip" id="orderIdDisplay">Order #FO-000000</div><br><br><button class="btn-primary-full" style="max-width:280px;margin:0 auto;display:block" onclick="closeCheckout()">Continue Shopping</button></div></div>
+  </div>
+</div>
+
+<!-- OFFER -->
+<div class="offer-veil" id="offerVeil">
+  <div class="offer-box">
+    <button class="offer-box-close" onclick="closeOffer()">✕</button>
+    <div class="eyebrow">Exclusive</div>
+    <h2>Get Your Best Offer</h2>
+    <p class="sub">Fill in your details and our specialist will craft a personalised quote — custom finishes, EMI plans, and trade pricing.</p>
+    <form id="offerFormEl">
+      <div class="of-field"><label class="of-lbl">Full Name <em>*</em></label><input class="of-inp" type="text" placeholder="Your full name" required></div>
+      <div class="of-field"><label class="of-lbl">Phone Number <em>*</em></label><input class="of-inp" type="tel" placeholder="+91 00000 00000" required></div>
+      <div class="of-field"><label class="of-lbl">Email Address</label><input class="of-inp" type="email" placeholder="your@email.com"></div>
+      <div class="of-field"><label class="of-lbl">Product / Interest <em>*</em></label>
+        <select class="of-sel" required>
+          <option value="" disabled selected>Select category or product</option>
+          <optgroup label="Seating"><option>Seto Lounge Chair</option><option>Hana Dining Chair</option><option>Mori Accent Chair</option><option>Kaze Modular Sofa</option></optgroup>
+          <optgroup label="Tables"><option>Tochi Dining Table</option><option>Ishi Coffee Table</option><option>Kuro Side Table</option></optgroup>
+          <optgroup label="Storage"><option>Yama Bookshelf</option><option>Haru Sideboard</option></optgroup>
+          <optgroup label="Bedroom"><option>Tsuki Bed Frame</option><option>Nami Dresser</option><option>Sora Nightstand</option></optgroup>
+          <option>Custom / Bespoke</option><option>Bulk / Trade</option><option>Other</option>
+        </select>
+      </div>
+      <div class="of-field"><label class="of-lbl">Message</label><textarea class="of-ta" placeholder="Tell us about your space or requirements…"></textarea></div>
+      <button type="submit" class="offer-submit">Send My Request →</button>
+    </form>
+    <div class="offer-success" id="offerSuccess"><div class="s-icon">✉️</div><h3>Request Sent!</h3><p>Our specialist will reach out within 2 business hours.</p></div>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a class="nav-logo" href="index.html" style="color:var(--cream)">FOR<span style="color:var(--accent)">M</span>A</a>
+      <p class="footer-tagline">Crafting furniture that transforms houses into homes since 2012.</p>
+      <div class="footer-social"><a class="social-icon" href="#">𝕏</a><a class="social-icon" href="#">in</a><a class="social-icon" href="#">▶</a><a class="social-icon" href="#">📸</a></div>
+    </div>
+    <div class="footer-col"><h4>Shop</h4><ul><li><a href="shop.html">All Products</a></li><li><a href="shop.html">Seating</a></li><li><a href="shop.html">Tables</a></li><li><a href="shop.html">Storage</a></li><li><a href="shop.html">Bedroom</a></li></ul></div>
+    <div class="footer-col"><h4>Company</h4><ul><li><a href="about.html">About FORMA</a></li><li><a href="about.html">Sustainability</a></li><li><a href="about.html">Careers</a></li><li><a href="#">Contact</a></li></ul></div>
+    <div class="footer-newsletter footer-col"><h4>Stay in the Loop</h4><p>New collections and exclusive offers — monthly.</p><div class="newsletter-form"><input class="newsletter-input" type="email" placeholder="your@email.com"><button class="newsletter-btn" onclick="showToast('Subscribed! 🎉')">→</button></div></div>
+  </div>
+  <div class="footer-bottom"><span>© 2025 FORMA Furniture.</span><span>Privacy · Terms</span></div>
+</footer>
+<div class="toast-stack"><div class="toast" id="toast"></div></div>
+
+<script src="shared.js"></script>
+<script>
+  let activeCat = 'all';
+
+  function setCat(cat, el) {
+    activeCat = cat;
+    document.querySelectorAll('.filter-option[id^="fcat-"]').forEach(o => o.classList.remove('active'));
+    if (el) el.classList.add('active');
+    applyFilters();
+  }
+
+  function applyFilters() {
+    let items = [...PRODUCTS];
+    if (activeCat !== 'all') items = items.filter(p => p.cat === activeCat);
+    const mn = parseFloat(document.getElementById('priceMin').value);
+    const mx = parseFloat(document.getElementById('priceMax').value);
+    if (!isNaN(mn)) items = items.filter(p => p.price >= mn);
+    if (!isNaN(mx)) items = items.filter(p => p.price <= mx);
+    if (document.getElementById('cbSale').checked) items = items.filter(p => p.oldPrice);
+    if (document.getElementById('cbNew').checked) items = items.filter(p => p.badge === 'New');
+    const sort = document.getElementById('sortSelect').value;
+    if (sort === 'price-asc') items.sort((a,b) => a.price - b.price);
+    else if (sort === 'price-desc') items.sort((a,b) => b.price - a.price);
+    else if (sort === 'name') items.sort((a,b) => a.name.localeCompare(b.name));
+    document.getElementById('resultCount').textContent = items.length;
+    if (!items.length) {
+      document.getElementById('shopGrid').innerHTML = `<div class="no-results"><div class="nr-icon">🔍</div><h3>No products found</h3><p>Try adjusting your filters</p></div>`;
+    } else {
+      renderProductCards('#shopGrid', items);
+    }
+  }
+
+  function resetFilters() {
+    activeCat = 'all';
+    document.querySelectorAll('.filter-option[id^="fcat-"]').forEach(o => o.classList.remove('active'));
+    document.getElementById('fcat-all').classList.add('active');
+    document.getElementById('priceMin').value = '';
+    document.getElementById('priceMax').value = '';
+    document.getElementById('cbSale').checked = false;
+    document.getElementById('cbNew').checked = false;
+    document.getElementById('sortSelect').value = 'default';
+    applyFilters();
+  }
+
+  applyFilters();
+</script>
+</body>
+</html>
