@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About — FORMA Furniture</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+.about-hero {
+  min-height: 70vh; display: flex; align-items: center;
+  padding-top: 72px; position: relative; overflow: hidden;
+  background: var(--charcoal);
+}
+.about-hero-bg {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 320px; opacity: .04; pointer-events: none; user-select: none;
+  letter-spacing: -40px;
+}
+.about-hero-content { position: relative; z-index: 1; padding: 80px; }
+.about-hero .eyebrow { color: var(--accent); }
+.about-hero .display-title { color: var(--cream); max-width: 640px; }
+.about-hero p { font-size: 17px; color: #9A9590; line-height: 1.9; max-width: 520px; margin-top: 24px; }
+
+/* STORY */
+.story-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+.story-visual {
+  aspect-ratio: 4/5; background: linear-gradient(145deg, #E4D9C4 0%, #C4B098 50%, #9A8068 100%);
+  display: flex; align-items: center; justify-content: center; font-size: 120px; opacity: .7;
+  position: relative;
+}
+.story-visual::after {
+  content: ''; position: absolute; top: -16px; left: -16px;
+  right: 16px; bottom: 16px; border: 2px solid var(--accent); z-index: -1;
+}
+.story-text .eyebrow { margin-bottom: 14px; }
+.story-text .display-title { margin-bottom: 24px; }
+.story-text p { font-size: 15px; color: var(--mid); line-height: 1.9; margin-bottom: 18px; }
+
+/* TIMELINE */
+.timeline { position: relative; padding: 0 0 0 48px; }
+.timeline::before { content: ''; position: absolute; top: 6px; left: 16px; bottom: 6px; width: 1px; background: var(--border); }
+.tl-item { position: relative; margin-bottom: 40px; }
+.tl-dot { position: absolute; left: -40px; top: 4px; width: 14px; height: 14px; border-radius: 50%; background: var(--accent); border: 3px solid var(--warm-white); box-shadow: 0 0 0 2px var(--accent); }
+.tl-year { font-size: 10px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); margin-bottom: 6px; }
+.tl-title { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 400; margin-bottom: 6px; }
+.tl-text { font-size: 13px; color: var(--mid); line-height: 1.7; }
+
+/* VALUES */
+.values-section { background: var(--cream); }
+.values-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 2px; }
+.value-card { background: var(--warm-white); padding: 48px 36px; position: relative; overflow: hidden; }
+.value-card::before { content: attr(data-num); position: absolute; top: -16px; right: 16px; font-family: 'Playfair Display', serif; font-size: 100px; color: var(--cream); font-weight: 700; pointer-events: none; transition: color .3s; }
+.value-card:hover::before { color: var(--accent-lt); }
+.value-icon { font-size: 44px; margin-bottom: 20px; }
+.value-title { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 400; margin-bottom: 12px; }
+.value-text { font-size: 14px; color: var(--mid); line-height: 1.8; }
+
+/* TEAM */
+.team-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 2px; }
+.team-card { background: var(--cream); overflow: hidden; }
+.team-avatar { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; font-size: 80px; background: linear-gradient(135deg, #D8CDBF, #B8A88C); }
+.team-info { padding: 20px; }
+.team-name { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 400; margin-bottom: 4px; }
+.team-role { font-size: 11px; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
+.team-bio { font-size: 13px; color: var(--mid); line-height: 1.7; }
+
+/* SUSTAINABILITY */
+.sustain-band { background: var(--ink); color: var(--cream); padding: 80px; }
+.sustain-band .eyebrow { color: var(--accent); }
+.sustain-band .display-title { color: var(--cream); margin-bottom: 0; }
+.sustain-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; margin-top: 56px; align-items: start; }
+.sustain-left p { font-size: 15px; color: #9A9590; line-height: 1.9; margin-bottom: 20px; }
+.sustain-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.s-stat { padding: 24px; border: 1px solid rgba(255,255,255,.08); }
+.s-stat-num { font-family: 'Playfair Display', serif; font-size: 36px; font-weight: 400; color: var(--accent); }
+.s-stat-lbl { font-size: 12px; color: #7A756E; margin-top: 6px; line-height: 1.5; }
+
+/* AWARDS */
+.awards-row { display: flex; gap: 48px; flex-wrap: wrap; justify-content: center; padding: 56px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.award-item { text-align: center; }
+.award-icon { font-size: 36px; margin-bottom: 10px; }
+.award-name { font-size: 11px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--ink); }
+.award-body { font-size: 12px; color: var(--mid); margin-top: 4px; }
+
+/* CTA */
+.about-cta { padding: 80px; text-align: center; background: var(--cream); }
+.about-cta p { font-size: 15px; color: var(--mid); max-width: 480px; margin: 20px auto 40px; line-height: 1.8; }
+
+@media (max-width: 900px) {
+  .story-grid, .sustain-grid { grid-template-columns: 1fr; gap: 48px; }
+  .values-grid { grid-template-columns: 1fr 1fr; }
+  .team-grid { grid-template-columns: 1fr 1fr; }
+  .about-hero-content { padding: 48px 24px; }
+  .sustain-band { padding: 56px 24px; }
+  .about-cta { padding: 56px 24px; }
+}
+@media (max-width: 600px) {
+  .values-grid, .team-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<nav class="navbar" id="navbar">
+  <a class="nav-logo" href="index.html">FOR<span>M</span>A</a>
+  <ul class="nav-center">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="shop.html">Shop</a></li>
+    <li><a href="about.html" class="active">About</a></li>
+    <li><a href="#" onclick="openOffer();return false;">Get Best Offer</a></li>
+  </ul>
+  <div class="nav-right">
+    <a class="nav-offer-btn" href="#" onclick="openOffer();return false;">Best Offer</a>
+    <button class="nav-cart-btn" onclick="openCart()">🛒<span class="cart-badge" id="cartBadge">0</span></button>
+    <button class="nav-hamburger" id="navHam"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html">Home</a><a href="shop.html">Shop</a><a href="about.html">About</a>
+  <a href="#" onclick="openOffer();return false;">Get Best Offer</a>
+</div>
+
+<section class="about-hero">
+  <div class="about-hero-bg">🪵🔨</div>
+  <div class="about-hero-content">
+    <div class="eyebrow anim-up">Our Story</div>
+    <h1 class="display-title anim-up-2">Furniture That<br><em>Tells a Story.</em></h1>
+    <p class="anim-up-3">FORMA was born from a simple belief: that the objects we live with every day should be beautiful, honest, and made to last. Since 2012, we've been crafting furniture that honours both material and maker.</p>
+  </div>
+</section>
+
+<!-- STORY -->
+<section class="section-pad">
+  <div class="container">
+    <div class="story-grid">
+      <div class="story-visual">🪵</div>
+      <div class="story-text">
+        <div class="eyebrow">The Beginning</div>
+        <h2 class="display-title">From Workshop<br>to <em>Living Room</em></h2>
+        <div class="divider"></div>
+        <p>FORMA began in a small workshop in Pune in 2012. Founder Vikram Nair, a trained carpenter and design school graduate, was frustrated by furniture that looked good in catalogues but fell apart within years.</p>
+        <p>He set out to prove that Indian craftsmanship could rival the best in the world — using locally-sourced sustainable hardwoods, traditional joinery techniques, and contemporary Japandi-inspired design.</p>
+        <p>Today, we operate from a 12,000 sq ft workshop with 40 master craftspeople, and have furnished over 2,400 homes across India.</p>
+        <a class="btn-ink" href="shop.html" style="margin-top:8px">Shop the Collection</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TIMELINE -->
+<section class="section-pad-sm" style="background:var(--cream)">
+  <div class="container">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start">
+      <div>
+        <div class="eyebrow">Milestones</div>
+        <h2 class="display-title" style="margin-bottom:40px">Our <em>Journey</em></h2>
+        <div class="timeline">
+          <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">2012</div><div class="tl-title">Founded in Pune</div><div class="tl-text">Vikram Nair opens a 600 sq ft workshop with three craftspeople and a vision for honest furniture.</div></div>
+          <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">2015</div><div class="tl-title">First Retail Showroom</div><div class="tl-text">FORMA opens its flagship showroom in Banjara Hills, Hyderabad. 500+ sq ft of curated space.</div></div>
+          <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">2018</div><div class="tl-title">Launch of Custom Programme</div><div class="tl-text">We begin offering fully bespoke furniture — any dimension, any finish, made just for you.</div></div>
+          <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">2021</div><div class="tl-title">FSC Certification</div><div class="tl-text">100% of our timber sourced from FSC-certified suppliers. A milestone we're deeply proud of.</div></div>
+          <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">2024</div><div class="tl-title">2,400 Happy Homes</div><div class="tl-text">We reach our milestone of 2,400 homes furnished across 18 cities in India.</div></div>
+        </div>
+      </div>
+      <div style="padding-top:80px">
+        <div class="awards-row" style="flex-direction:column;align-items:flex-start;padding:0;border:none;gap:24px">
+          <div class="award-item" style="text-align:left;display:flex;gap:16px;align-items:flex-start">
+            <div class="award-icon">🏆</div><div><div class="award-name">Design Excellence Award</div><div class="award-body">India Design Mark, 2022 — Best Furniture Brand</div></div>
+          </div>
+          <div class="award-item" style="text-align:left;display:flex;gap:16px;align-items:flex-start">
+            <div class="award-icon">🌱</div><div><div class="award-name">Sustainability Leader</div><div class="award-body">CII Green Products Award, 2023</div></div>
+          </div>
+          <div class="award-item" style="text-align:left;display:flex;gap:16px;align-items:flex-start">
+            <div class="award-icon">⭐</div><div><div class="award-name">4.9 / 5 Customer Rating</div><div class="award-body">Based on 1,200+ verified reviews</div></div>
+          </div>
+          <div class="award-item" style="text-align:left;display:flex;gap:16px;align-items:flex-start">
+            <div class="award-icon">📦</div><div><div class="award-name">Best Delivery Experience</div><div class="award-body">Logistics Today Award, 2024</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VALUES -->
+<section class="values-section section-pad">
+  <div class="container">
+    <div style="text-align:center;margin-bottom:56px">
+      <div class="eyebrow">What We Stand For</div>
+      <h2 class="display-title">Our Core <em>Values</em></h2>
+    </div>
+    <div class="values-grid">
+      <div class="value-card" data-num="01"><div class="value-icon">🎯</div><div class="value-title">Honesty in Materials</div><div class="value-text">No veneer over chipboard. No deceptive finishes. We use what we say we use — solid hardwoods, real metals, genuine upholstery.</div></div>
+      <div class="value-card" data-num="02"><div class="value-icon">♻️</div><div class="value-title">Responsibility to Nature</div><div class="value-text">Every tree used is replaced. We offset 100% of our workshop emissions and use water-based, non-toxic finishes throughout.</div></div>
+      <div class="value-card" data-num="03"><div class="value-icon">🤝</div><div class="value-title">Fair to Our Makers</div><div class="value-text">Our craftspeople earn 40% above industry average. We invest in their training, health, and long-term wellbeing.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section class="section-pad-sm">
+  <div class="container">
+    <div style="text-align:center;margin-bottom:56px">
+      <div class="eyebrow">The People Behind FORMA</div>
+      <h2 class="display-title">Meet Our <em>Team</em></h2>
+    </div>
+    <div class="team-grid">
+      <div class="team-card"><div class="team-avatar">👨‍💼</div><div class="team-info"><div class="team-name">Vikram Nair</div><div class="team-role">Founder & CEO</div><div class="team-bio">Design school graduate turned master carpenter. Vikram oversees all product design and craftsmanship standards.</div></div></div>
+      <div class="team-card"><div class="team-avatar">👩‍🎨</div><div class="team-info"><div class="team-name">Priya Desai</div><div class="team-role">Head of Design</div><div class="team-bio">Former principal designer at a Tokyo studio, Priya brings deep Japandi sensibility to every FORMA collection.</div></div></div>
+      <div class="team-card"><div class="team-avatar">👨‍🔧</div><div class="team-info"><div class="team-name">Rajan Pillai</div><div class="team-role">Master Craftsman</div><div class="team-bio">35 years of woodworking mastery. Rajan leads our team of 40 artisans and maintains our quality standards.</div></div></div>
+      <div class="team-card"><div class="team-avatar">👩‍💻</div><div class="team-info"><div class="team-name">Ananya Singh</div><div class="team-role">Customer Experience</div><div class="team-bio">Ensures every customer journey — from first browse to final delivery — exceeds expectations.</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- SUSTAINABILITY -->
+<section class="sustain-band">
+  <div class="container">
+    <div class="eyebrow">Our Commitment</div>
+    <h2 class="display-title">Built for <em>Tomorrow</em></h2>
+    <div class="sustain-grid">
+      <div class="sustain-left">
+        <p>Sustainability isn't a marketing checkbox for us — it's embedded in how we source, manufacture, and deliver every single piece.</p>
+        <p>From FSC-certified forests to zero-waste workshop practices and carbon-neutral delivery, we're building a furniture company that future generations can be proud of.</p>
+        <a class="btn-ghost-light" href="#" onclick="openOffer();return false;" style="margin-top:8px">Learn About Custom Orders</a>
+      </div>
+      <div class="sustain-stats">
+        <div class="s-stat"><div class="s-stat-num">100%</div><div class="s-stat-lbl">FSC-certified timber</div></div>
+        <div class="s-stat"><div class="s-stat-num">0</div><div class="s-stat-lbl">Landfill waste from workshop</div></div>
+        <div class="s-stat"><div class="s-stat-num">3,200</div><div class="s-stat-lbl">Trees planted since 2021</div></div>
+        <div class="s-stat"><div class="s-stat-num">Net 0</div><div class="s-stat-lbl">Carbon emissions target by 2027</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT CTA -->
+<section class="about-cta">
+  <div class="eyebrow">Work With Us</div>
+  <h2 class="display-title">Ready to <em>Transform</em> Your Space?</h2>
+  <p>Whether you're furnishing a room or an entire home, we'd love to help. Get a personalised offer from our specialists today.</p>
+  <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
+    <a class="btn-ink" href="#" onclick="openOffer();return false;">Get Best Offer</a>
+    <a class="btn-ghost" href="shop.html">Shop Collection</a>
+  </div>
+</section>
+
+<!-- CART -->
+<div class="cart-overlay" id="cartOverlay">
+  <div class="cart-drawer">
+    <div class="cart-drawer-head"><div><h2>Your Cart</h2><div class="cart-count-label" id="cartCountLabel"></div></div><button class="cart-x" onclick="closeCart()">✕</button></div>
+    <div class="cart-body" id="cartBody"></div>
+    <div class="cart-foot" id="cartFoot" style="display:none">
+      <div class="cart-subtotals">
+        <div class="cart-line"><span>Subtotal</span><span id="cartSub">₹0</span></div>
+        <div class="cart-line"><span>Delivery</span><span id="cartDel">₹2,500</span></div>
+        <div class="cart-line grand"><span>Total</span><span id="cartTotal">₹0</span></div>
+      </div>
+      <button class="btn-checkout" onclick="beginCheckout()">Begin Checkout →</button>
+      <button class="btn-continue" onclick="closeCart()">Continue Shopping</button>
+    </div>
+  </div>
+</div>
+
+<!-- CHECKOUT -->
+<div class="modal-veil" id="checkoutVeil">
+  <div class="checkout-box">
+    <div class="co-head"><div><h2>Checkout</h2><p>Secure · Encrypted</p></div><button class="modal-x" onclick="closeCheckout()">✕</button></div>
+    <div class="co-steps"><div class="co-step active" id="coTab1">1. Delivery</div><div class="co-step" id="coTab2">2. Payment</div><div class="co-step" id="coTab3">3. Review</div></div>
+    <div class="co-panel active" id="coPanel1">
+      <div class="co-section-label">Contact</div>
+      <div class="form-row-2">
+        <div class="co-field"><label class="co-lbl">First Name</label><input class="co-inp" id="coFName" placeholder="Arjun"></div>
+        <div class="co-field"><label class="co-lbl">Last Name</label><input class="co-inp" id="coLName" placeholder="Mehta"></div>
+        <div class="co-field span2"><label class="co-lbl">Email</label><input class="co-inp" id="coEmail" type="email" placeholder="arjun@email.com"></div>
+        <div class="co-field span2"><label class="co-lbl">Phone</label><input class="co-inp" id="coPhone" type="tel" placeholder="+91 98765 43210"></div>
+      </div>
+      <div class="co-section-label" style="margin-top:8px">Address</div>
+      <div class="form-row-2">
+        <div class="co-field span2"><label class="co-lbl">Street Address</label><input class="co-inp" id="coAddr1" placeholder="House / Flat No., Street"></div>
+        <div class="co-field"><label class="co-lbl">City</label><input class="co-inp" id="coCity" placeholder="Mumbai"></div>
+        <div class="co-field"><label class="co-lbl">PIN</label><input class="co-inp" placeholder="400001"></div>
+        <div class="co-field span2"><label class="co-lbl">State</label><select class="co-sel"><option>— Select —</option><option>Maharashtra</option><option>Delhi</option><option>Karnataka</option><option>Jharkhand</option><option>Other</option></select></div>
+      </div>
+      <button class="btn-primary-full" onclick="goCoNext(2)">Continue to Payment →</button>
+    </div>
+    <div class="co-panel" id="coPanel2">
+      <div class="co-section-label">Payment</div>
+      <div class="pay-grid">
+        <div class="pay-tile selected" onclick="selectPayment(this,'card')"><span class="pay-icon">💳</span>Card</div>
+        <div class="pay-tile" onclick="selectPayment(this,'upi')"><span class="pay-icon">📱</span>UPI</div>
+        <div class="pay-tile" onclick="selectPayment(this,'emi')"><span class="pay-icon">🏦</span>EMI</div>
+        <div class="pay-tile" onclick="selectPayment(this,'cod')"><span class="pay-icon">💵</span>COD</div>
+      </div>
+      <div id="cardFields"><div class="form-row-2"><div class="co-field span2"><label class="co-lbl">Card Number</label><input class="co-inp" placeholder="0000  0000  0000  0000" maxlength="19" oninput="formatCardNum(this)"></div><div class="co-field"><label class="co-lbl">Expiry</label><input class="co-inp" placeholder="MM / YY" maxlength="7" oninput="formatExpiry(this)"></div><div class="co-field"><label class="co-lbl">CVV</label><input class="co-inp" type="password" placeholder="•••" maxlength="4"></div><div class="co-field span2"><label class="co-lbl">Name on Card</label><input class="co-inp" placeholder="ARJUN MEHTA"></div></div></div>
+      <div id="upiFields" style="display:none"><div class="co-field"><label class="co-lbl">UPI ID</label><input class="co-inp" placeholder="yourname@upi"></div></div>
+      <div id="emiFields" style="display:none"><div class="co-field"><label class="co-lbl">EMI Plan</label><select class="co-sel"><option>3 months — No cost</option><option>6 months — No cost</option><option>12 months — 1.5% p.m.</option></select></div></div>
+      <div id="codFields" style="display:none;padding:16px;background:var(--cream);font-size:13px;color:var(--mid);line-height:1.8;margin-bottom:20px;">Cash on Delivery available. ₹500 booking fee. Balance on delivery.</div>
+      <button class="btn-primary-full" onclick="goCoNext(3)">Review Order →</button>
+      <button class="btn-ghost-full" onclick="goCoNext(1)">← Back</button>
+    </div>
+    <div class="co-panel" id="coPanel3">
+      <div class="co-section-label">Order Summary</div>
+      <div class="order-review-list" id="reviewList"></div>
+      <div class="co-section-label">Delivery To</div>
+      <div class="delivery-review" id="deliverySummary"></div>
+      <button class="btn-primary-full" onclick="placeOrder()">Place Order & Pay →</button>
+      <button class="btn-ghost-full" onclick="goCoNext(2)">← Back</button>
+    </div>
+    <div class="co-panel" id="coPanelS"><div class="success-wrap"><div class="s-icon">🎉</div><h2>Order Placed!</h2><p>Thank you! Our team will call to schedule your delivery.</p><div class="order-chip" id="orderIdDisplay">Order #FO-000000</div><br><br><button class="btn-primary-full" style="max-width:280px;margin:0 auto;display:block" onclick="closeCheckout()">Continue Shopping</button></div></div>
+  </div>
+</div>
+
+<!-- OFFER MODAL -->
+<div class="offer-veil" id="offerVeil">
+  <div class="offer-box">
+    <button class="offer-box-close" onclick="closeOffer()">✕</button>
+    <div class="eyebrow">Exclusive</div>
+    <h2>Get Your Best Offer</h2>
+    <p class="sub">Fill in your details and our specialist will craft a personalised quote — custom finishes, EMI plans, and trade pricing.</p>
+    <form id="offerFormEl">
+      <div class="of-field"><label class="of-lbl">Full Name <em>*</em></label><input class="of-inp" type="text" placeholder="Your full name" required></div>
+      <div class="of-field"><label class="of-lbl">Phone Number <em>*</em></label><input class="of-inp" type="tel" placeholder="+91 00000 00000" required></div>
+      <div class="of-field"><label class="of-lbl">Email Address</label><input class="of-inp" type="email" placeholder="your@email.com"></div>
+      <div class="of-field"><label class="of-lbl">Product / Interest <em>*</em></label>
+        <select class="of-sel" required>
+          <option value="" disabled selected>Select category or product</option>
+          <optgroup label="Seating"><option>Seto Lounge Chair</option><option>Hana Dining Chair</option><option>Mori Accent Chair</option><option>Kaze Modular Sofa</option></optgroup>
+          <optgroup label="Tables"><option>Tochi Dining Table</option><option>Ishi Coffee Table</option><option>Kuro Side Table</option></optgroup>
+          <optgroup label="Storage"><option>Yama Bookshelf</option><option>Haru Sideboard</option></optgroup>
+          <optgroup label="Bedroom"><option>Tsuki Bed Frame</option><option>Nami Dresser</option><option>Sora Nightstand</option></optgroup>
+          <option>Custom / Bespoke</option><option>Bulk / Trade</option><option>Other</option>
+        </select>
+      </div>
+      <div class="of-field"><label class="of-lbl">Message</label><textarea class="of-ta" placeholder="Tell us about your space or requirements…"></textarea></div>
+      <button type="submit" class="offer-submit">Send My Request →</button>
+    </form>
+    <div class="offer-success" id="offerSuccess"><div class="s-icon">✉️</div><h3>Request Sent!</h3><p>Our specialist will reach out within 2 business hours with your personalised offer.</p></div>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a class="nav-logo" href="index.html" style="color:var(--cream)">FOR<span style="color:var(--accent)">M</span>A</a>
+      <p class="footer-tagline">Crafting furniture that transforms houses into homes since 2012.</p>
+      <div class="footer-social"><a class="social-icon" href="#">𝕏</a><a class="social-icon" href="#">in</a><a class="social-icon" href="#">▶</a><a class="social-icon" href="#">📸</a></div>
+    </div>
+    <div class="footer-col"><h4>Shop</h4><ul><li><a href="shop.html">All Products</a></li><li><a href="shop.html">Seating</a></li><li><a href="shop.html">Tables</a></li><li><a href="shop.html">Storage</a></li></ul></div>
+    <div class="footer-col"><h4>Company</h4><ul><li><a href="about.html">About FORMA</a></li><li><a href="about.html">Sustainability</a></li><li><a href="about.html">Careers</a></li><li><a href="#">Contact</a></li></ul></div>
+    <div class="footer-newsletter footer-col"><h4>Stay in the Loop</h4><p>New collections and exclusive offers — monthly.</p><div class="newsletter-form"><input class="newsletter-input" type="email" placeholder="your@email.com"><button class="newsletter-btn" onclick="showToast('Subscribed! 🎉')">→</button></div></div>
+  </div>
+  <div class="footer-bottom"><span>© 2025 FORMA Furniture.</span><span>Privacy · Terms</span></div>
+</footer>
+<div class="toast-stack"><div class="toast" id="toast"></div></div>
+
+<script src="shared.js"></script>
+</body>
+</html>
