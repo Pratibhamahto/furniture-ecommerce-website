@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FORMA — Modern Furniture</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+.hero {
+  min-height: 100vh; display: grid; grid-template-columns: 55% 45%;
+  padding-top: 72px; background: var(--cream); overflow: hidden;
+}
+.hero-content {
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 80px 64px 80px 80px;
+}
+.hero-body { font-size: 16px; color: var(--mid); line-height: 1.85; max-width: 380px; margin: 28px 0 44px; }
+.hero-actions { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
+.hero-visual {
+  position: relative; overflow: hidden;
+  background: linear-gradient(160deg, #D4C9B2 0%, #B8A88C 45%, #8E7A60 100%);
+}
+.hero-visual-inner {
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 160px; opacity: .25;
+}
+.hero-pill {
+  position: absolute; bottom: 48px; left: -1px;
+  background: var(--warm-white); padding: 18px 28px;
+  border-left: 4px solid var(--accent); box-shadow: var(--shadow-md);
+}
+.hero-pill strong { display: block; font-size: 15px; font-weight: 500; margin-bottom: 4px; }
+.hero-pill span { font-size: 12px; color: var(--mid); }
+.hero-stats { display: flex; border-top: 1px solid var(--border); margin-top: 56px; padding-top: 40px; }
+.stat { flex: 1; padding-right: 32px; border-right: 1px solid var(--border); margin-right: 32px; }
+.stat:last-child { border-right: none; margin-right: 0; padding-right: 0; }
+.stat-num { font-family: 'Playfair Display', serif; font-size: 36px; font-weight: 400; color: var(--ink); line-height: 1; }
+.stat-lbl { font-size: 11px; color: var(--mid); margin-top: 6px; letter-spacing: 1px; }
+
+.featured-strip { background: var(--ink); padding: 20px 0; overflow: hidden; }
+.strip-track { display: flex; animation: scrollStrip 18s linear infinite; width: max-content; }
+.strip-item { padding: 0 40px; font-size: 11px; font-weight: 500; letter-spacing: 3px; text-transform: uppercase; color: #8A857E; white-space: nowrap; display: flex; align-items: center; gap: 16px; }
+.strip-item::after { content: '✦'; color: var(--accent); font-size: 8px; }
+@keyframes scrollStrip { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+.filter-tabs { display: flex; justify-content: center; border-bottom: 1px solid var(--border); margin-bottom: 56px; flex-wrap: wrap; }
+.ftab { padding: 14px 28px; font-size: 11px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: var(--mid); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; transition: all var(--transition); background: none; border-top: none; border-left: none; border-right: none; font-family: 'Jost', sans-serif; }
+.ftab:hover { color: var(--ink); }
+.ftab.active { color: var(--ink); border-bottom-color: var(--accent); }
+
+.products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 2px; }
+.prod-card { background: #fff; overflow: hidden; position: relative; transition: transform .3s, box-shadow .3s; }
+.prod-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-md); z-index: 2; }
+.prod-thumb { aspect-ratio: 3/4; background: var(--cream); position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+.prod-emoji { font-size: 88px; transition: transform .6s cubic-bezier(.25,.46,.45,.94); pointer-events: none; }
+.prod-card:hover .prod-emoji { transform: scale(1.08) translateY(-4px); }
+.prod-badge { position: absolute; top: 14px; left: 14px; background: var(--accent); color: #fff; font-size: 9px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; padding: 4px 10px; }
+.prod-quick { position: absolute; bottom: 0; left: 0; right: 0; background: rgba(26,25,22,.85); color: #fff; font-family: 'Jost', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; border: none; padding: 14px; cursor: pointer; transform: translateY(100%); transition: transform .3s; }
+.prod-card:hover .prod-quick { transform: translateY(0); }
+.prod-info { padding: 22px; }
+.prod-cat { font-size: 9px; font-weight: 600; letter-spacing: 2.5px; text-transform: uppercase; color: var(--accent); margin-bottom: 6px; }
+.prod-name { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 400; margin-bottom: 8px; }
+.prod-desc { font-size: 12px; color: var(--mid); line-height: 1.7; margin-bottom: 18px; }
+.prod-foot { display: flex; align-items: center; justify-content: space-between; }
+.prod-price { font-size: 15px; color: var(--ink); }
+.prod-price s { font-size: 12px; color: var(--soft); margin-right: 6px; }
+.prod-price strong { color: var(--accent); font-weight: 500; }
+.prod-atc { padding: 9px 18px; background: var(--ink); color: #fff; font-family: 'Jost', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; border: none; cursor: pointer; transition: background var(--transition); }
+.prod-atc:hover { background: var(--accent); }
+
+.why-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 2px; }
+.why-card { background: var(--warm-white); padding: 40px 32px; transition: transform .3s; }
+.why-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-sm); }
+.why-icon { font-size: 40px; margin-bottom: 20px; }
+.why-title { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 400; margin-bottom: 10px; }
+.why-text { font-size: 13px; color: var(--mid); line-height: 1.8; }
+
+.cta-band { background: var(--ink); color: var(--cream); padding: 80px; text-align: center; }
+.cta-band p { font-size: 15px; color: #8A857E; max-width: 480px; margin: 20px auto 40px; line-height: 1.8; }
+.cta-actions { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+
+@media (max-width: 900px) {
+  .hero { grid-template-columns: 1fr; }
+  .hero-content { padding: 48px 24px; }
+  .hero-visual { height: 50vw; min-height: 280px; }
+  .why-grid { grid-template-columns: 1fr 1fr; }
+  .cta-band { padding: 56px 24px; }
+}
+@media (max-width: 600px) {
+  .why-grid { grid-template-columns: 1fr; }
+  .hero-stats { flex-direction: column; gap: 20px; }
+  .stat { border-right: none; border-bottom: 1px solid var(--border); padding-bottom: 20px; margin-right: 0; }
+}
+</style>
+</head>
+<body>
+
+<nav class="navbar" id="navbar">
+  <a class="nav-logo" href="index.html">FOR<span>M</span>A</a>
+  <ul class="nav-center">
+    <li><a href="index.html" class="active">Home</a></li>
+    <li><a href="shop.html">Shop</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="#" onclick="openOffer();return false;">Get Best Offer</a></li>
+  </ul>
+  <div class="nav-right">
+    <a class="nav-offer-btn" href="#" onclick="openOffer();return false;">Best Offer</a>
+    <button class="nav-cart-btn" onclick="openCart()">🛒<span class="cart-badge" id="cartBadge">0</span></button>
+    <button class="nav-hamburger" id="navHam"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html">Home</a><a href="shop.html">Shop</a><a href="about.html">About</a>
+  <a href="#" onclick="openOffer();return false;">Get Best Offer</a>
+</div>
+
+<section class="hero">
+  <div class="hero-content">
+    <div class="eyebrow anim-up">New Collection 2025</div>
+    <h1 class="display-title anim-up-2">Living Spaces,<br><em>Redefined.</em></h1>
+    <p class="hero-body anim-up-3">Handcrafted furniture blending Nordic minimalism with warm organic forms. Built to last generations, designed for today.</p>
+    <div class="hero-actions anim-up-4">
+      <a class="btn-ink" href="shop.html">Explore Collection</a>
+      <a class="btn-ghost" href="#" onclick="openOffer();return false;">Get Best Offer</a>
+    </div>
+    <div class="hero-stats anim-up-4">
+      <div class="stat"><div class="stat-num">2,400+</div><div class="stat-lbl">Happy Homes</div></div>
+      <div class="stat"><div class="stat-num">12</div><div class="stat-lbl">Years Crafting</div></div>
+      <div class="stat"><div class="stat-num">100%</div><div class="stat-lbl">Solid Wood</div></div>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="hero-visual-inner">🛋️</div>
+    <div class="hero-pill"><strong>White-Glove Delivery</strong><span>Free on orders above ₹50,000</span></div>
+  </div>
+</section>
+
+<div class="featured-strip"><div class="strip-track" id="stripTrack"></div></div>
+
+<section class="section-pad" style="background:var(--warm-white)">
+  <div class="container">
+    <div style="text-align:center;margin-bottom:48px">
+      <div class="eyebrow">Curated Selection</div>
+      <h2 class="display-title">Our <em>Signature</em> Pieces</h2>
+    </div>
+    <div class="filter-tabs">
+      <button class="ftab active" onclick="filterProducts('all',this)">All</button>
+      <button class="ftab" onclick="filterProducts('Seating',this)">Seating</button>
+      <button class="ftab" onclick="filterProducts('Tables',this)">Tables</button>
+      <button class="ftab" onclick="filterProducts('Storage',this)">Storage</button>
+      <button class="ftab" onclick="filterProducts('Bedroom',this)">Bedroom</button>
+    </div>
+    <div class="products-grid" id="prodGrid"></div>
+    <div style="text-align:center;margin-top:48px"><a class="btn-ghost" href="shop.html">View All Products</a></div>
+  </div>
+</section>
+
+<section class="section-pad-sm" style="background:var(--cream)">
+  <div class="container">
+    <div style="text-align:center;margin-bottom:56px">
+      <div class="eyebrow">Why Choose Us</div>
+      <h2 class="display-title">The <em>FORMA</em> Promise</h2>
+    </div>
+    <div class="why-grid">
+      <div class="why-card"><div class="why-icon">🌳</div><div class="why-title">Sustainably Sourced</div><div class="why-text">Every piece of wood is FSC-certified. We protect the planet with every purchase.</div></div>
+      <div class="why-card"><div class="why-icon">🔨</div><div class="why-title">Master Craftspeople</div><div class="why-text">Our artisans bring decades of experience. Hand-jointed, hand-finished, heirloom quality.</div></div>
+      <div class="why-card"><div class="why-icon">🚚</div><div class="why-title">White-Glove Delivery</div><div class="why-text">Full assembly included. Our team places every piece exactly where you want it.</div></div>
+      <div class="why-card"><div class="why-icon">🔄</div><div class="why-title">30-Day Trial</div><div class="why-text">Live with your furniture for 30 days. Not in love? We'll collect it — no questions.</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="eyebrow" style="color:var(--accent)">Exclusive Access</div>
+  <h2 class="display-title" style="color:var(--cream)">Ready for Your <em>Perfect</em> Space?</h2>
+  <p>Our specialists craft personalised offers — custom finishes, trade pricing, and flexible EMI plans. Fill in one form, get a quote within 2 hours.</p>
+  <div class="cta-actions">
+    <a class="btn-ink" href="#" onclick="openOffer();return false;">Get My Best Offer</a>
+    <a class="btn-ghost-light" href="shop.html">Browse Collection</a>
+  </div>
+</section>
+
+<!-- ══ CART ══ -->
+<div class="cart-overlay" id="cartOverlay">
+  <div class="cart-drawer">
+    <div class="cart-drawer-head"><div><h2>Your Cart</h2><div class="cart-count-label" id="cartCountLabel"></div></div><button class="cart-x" onclick="closeCart()">✕</button></div>
+    <div class="cart-body" id="cartBody"></div>
+    <div class="cart-foot" id="cartFoot" style="display:none">
+      <div class="cart-subtotals">
+        <div class="cart-line"><span>Subtotal</span><span id="cartSub">₹0</span></div>
+        <div class="cart-line"><span>Delivery</span><span id="cartDel">₹2,500</span></div>
+        <div class="cart-line grand"><span>Total</span><span id="cartTotal">₹0</span></div>
+      </div>
+      <button class="btn-checkout" onclick="beginCheckout()">Begin Checkout →</button>
+      <button class="btn-continue" onclick="closeCart()">Continue Shopping</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ CHECKOUT ══ -->
+<div class="modal-veil" id="checkoutVeil">
+  <div class="checkout-box">
+    <div class="co-head"><div><h2>Checkout</h2><p>Secure · Encrypted · Fast</p></div><button class="modal-x" onclick="closeCheckout()">✕</button></div>
+    <div class="co-steps">
+      <div class="co-step active" id="coTab1">1. Delivery</div>
+      <div class="co-step" id="coTab2">2. Payment</div>
+      <div class="co-step" id="coTab3">3. Review</div>
+    </div>
+    <div class="co-panel active" id="coPanel1">
+      <div class="co-section-label">Contact</div>
+      <div class="form-row-2">
+        <div class="co-field"><label class="co-lbl">First Name</label><input class="co-inp" id="coFName" placeholder="Arjun"></div>
+        <div class="co-field"><label class="co-lbl">Last Name</label><input class="co-inp" id="coLName" placeholder="Mehta"></div>
+        <div class="co-field span2"><label class="co-lbl">Email</label><input class="co-inp" id="coEmail" type="email" placeholder="arjun@email.com"></div>
+        <div class="co-field span2"><label class="co-lbl">Phone</label><input class="co-inp" id="coPhone" type="tel" placeholder="+91 98765 43210"></div>
+      </div>
+      <div class="co-section-label" style="margin-top:8px">Delivery Address</div>
+      <div class="form-row-2">
+        <div class="co-field span2"><label class="co-lbl">Address</label><input class="co-inp" id="coAddr1" placeholder="House / Flat No., Street"></div>
+        <div class="co-field"><label class="co-lbl">City</label><input class="co-inp" id="coCity" placeholder="Mumbai"></div>
+        <div class="co-field"><label class="co-lbl">PIN</label><input class="co-inp" placeholder="400001"></div>
+        <div class="co-field span2"><label class="co-lbl">State</label><select class="co-sel"><option>— Select State —</option><option>Maharashtra</option><option>Delhi</option><option>Karnataka</option><option>Tamil Nadu</option><option>Gujarat</option><option>Jharkhand</option><option>West Bengal</option><option>Other</option></select></div>
+      </div>
+      <button class="btn-primary-full" onclick="goCoNext(2)">Continue to Payment →</button>
+    </div>
+    <div class="co-panel" id="coPanel2">
+      <div class="co-section-label">Payment</div>
+      <div class="pay-grid">
+        <div class="pay-tile selected" onclick="selectPayment(this,'card')"><span class="pay-icon">💳</span>Card</div>
+        <div class="pay-tile" onclick="selectPayment(this,'upi')"><span class="pay-icon">📱</span>UPI</div>
+        <div class="pay-tile" onclick="selectPayment(this,'emi')"><span class="pay-icon">🏦</span>EMI</div>
+        <div class="pay-tile" onclick="selectPayment(this,'cod')"><span class="pay-icon">💵</span>COD</div>
+      </div>
+      <div id="cardFields"><div class="form-row-2"><div class="co-field span2"><label class="co-lbl">Card Number</label><input class="co-inp" placeholder="0000  0000  0000  0000" maxlength="19" oninput="formatCardNum(this)"></div><div class="co-field"><label class="co-lbl">Expiry</label><input class="co-inp" placeholder="MM / YY" maxlength="7" oninput="formatExpiry(this)"></div><div class="co-field"><label class="co-lbl">CVV</label><input class="co-inp" type="password" placeholder="•••" maxlength="4"></div><div class="co-field span2"><label class="co-lbl">Name on Card</label><input class="co-inp" placeholder="ARJUN MEHTA"></div></div></div>
+      <div id="upiFields" style="display:none"><div class="co-field"><label class="co-lbl">UPI ID</label><input class="co-inp" placeholder="yourname@upi"></div></div>
+      <div id="emiFields" style="display:none"><div class="co-field"><label class="co-lbl">EMI Plan</label><select class="co-sel"><option>3 months — No cost EMI</option><option>6 months — No cost EMI</option><option>12 months — 1.5% p.m.</option></select></div></div>
+      <div id="codFields" style="display:none;padding:16px;background:var(--cream);font-size:13px;color:var(--mid);line-height:1.8;margin-bottom:20px;">Cash on Delivery available. ₹500 booking fee at confirmation. Balance on delivery.</div>
+      <button class="btn-primary-full" onclick="goCoNext(3)">Review Order →</button>
+      <button class="btn-ghost-full" onclick="goCoNext(1)">← Back</button>
+    </div>
+    <div class="co-panel" id="coPanel3">
+      <div class="co-section-label">Order Summary</div>
+      <div class="order-review-list" id="reviewList"></div>
+      <div class="co-section-label">Delivery To</div>
+      <div class="delivery-review" id="deliverySummary"></div>
+      <button class="btn-primary-full" onclick="placeOrder()">Place Order & Pay →</button>
+      <button class="btn-ghost-full" onclick="goCoNext(2)">← Back</button>
+    </div>
+    <div class="co-panel" id="coPanelS"><div class="success-wrap"><div class="s-icon">🎉</div><h2>Order Placed!</h2><p>Thank you! A confirmation email is on its way. Our team will call to schedule white-glove delivery.</p><div class="order-chip" id="orderIdDisplay">Order #FO-000000</div><br><br><button class="btn-primary-full" style="max-width:280px;margin:0 auto;display:block" onclick="closeCheckout()">Continue Shopping</button></div></div>
+  </div>
+</div>
+
+<!-- ══ OFFER MODAL ══ -->
+<div class="offer-veil" id="offerVeil">
+  <div class="offer-box">
+    <button class="offer-box-close" onclick="closeOffer()">✕</button>
+    <div class="eyebrow">Exclusive</div>
+    <h2>Get Your Best Offer</h2>
+    <p class="sub">Fill in your details and our specialist will craft a personalised quote — custom finishes, EMI plans, and trade pricing.</p>
+    <form id="offerFormEl">
+      <div class="of-field"><label class="of-lbl">Full Name <em>*</em></label><input class="of-inp" type="text" placeholder="Your full name" required></div>
+      <div class="of-field"><label class="of-lbl">Phone Number <em>*</em></label><input class="of-inp" type="tel" placeholder="+91 00000 00000" required></div>
+      <div class="of-field"><label class="of-lbl">Email Address</label><input class="of-inp" type="email" placeholder="your@email.com"></div>
+      <div class="of-field"><label class="of-lbl">Product / Interest <em>*</em></label>
+        <select class="of-sel" required>
+          <option value="" disabled selected>Select category or product</option>
+          <optgroup label="Seating"><option>Seto Lounge Chair</option><option>Hana Dining Chair</option><option>Mori Accent Chair</option><option>Kaze Modular Sofa</option></optgroup>
+          <optgroup label="Tables"><option>Tochi Dining Table</option><option>Ishi Coffee Table</option><option>Kuro Side Table</option></optgroup>
+          <optgroup label="Storage"><option>Yama Bookshelf</option><option>Haru Sideboard</option></optgroup>
+          <optgroup label="Bedroom"><option>Tsuki Bed Frame</option><option>Nami Dresser</option><option>Sora Nightstand</option></optgroup>
+          <option>Custom / Bespoke Order</option><option>Bulk / Trade Enquiry</option><option>Interior Design Consultation</option><option>Other</option>
+        </select>
+      </div>
+      <div class="of-field"><label class="of-lbl">Message</label><textarea class="of-ta" placeholder="Tell us about your space or requirements…"></textarea></div>
+      <button type="submit" class="offer-submit">Send My Request →</button>
+    </form>
+    <div class="offer-success" id="offerSuccess"><div class="s-icon">✉️</div><h3>Request Sent!</h3><p>Our specialist will reach out within 2 business hours with your personalised offer.</p></div>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a class="nav-logo" href="index.html" style="color:var(--cream)">FOR<span style="color:var(--accent)">M</span>A</a>
+      <p class="footer-tagline">Crafting furniture that transforms houses into homes since 2012.</p>
+      <div class="footer-social"><a class="social-icon" href="#">𝕏</a><a class="social-icon" href="#">in</a><a class="social-icon" href="#">▶</a><a class="social-icon" href="#">📸</a></div>
+    </div>
+    <div class="footer-col"><h4>Shop</h4><ul><li><a href="shop.html">All Products</a></li><li><a href="shop.html">Seating</a></li><li><a href="shop.html">Tables</a></li><li><a href="shop.html">Storage</a></li><li><a href="shop.html">Bedroom</a></li></ul></div>
+    <div class="footer-col"><h4>Company</h4><ul><li><a href="about.html">About FORMA</a></li><li><a href="about.html">Sustainability</a></li><li><a href="about.html">Careers</a></li><li><a href="#">Contact</a></li></ul></div>
+    <div class="footer-newsletter footer-col"><h4>Stay in the Loop</h4><p>New collections and exclusive offers — monthly.</p><div class="newsletter-form"><input class="newsletter-input" type="email" placeholder="your@email.com"><button class="newsletter-btn" onclick="showToast('Subscribed! 🎉')">→</button></div></div>
+  </div>
+  <div class="footer-bottom"><span>© 2025 FORMA Furniture. All rights reserved.</span><span>Privacy · Terms</span></div>
+</footer>
+<div class="toast-stack"><div class="toast" id="toast"></div></div>
+
+<script src="shared.js"></script>
+<script>
+  const stripItems = ['Free Delivery Over ₹50,000','Master Craftspeople','Sustainably Sourced Wood','30-Day Trial','White-Glove Assembly','Custom Finishes Available','Trade & Bulk Pricing'];
+  const track = document.getElementById('stripTrack');
+  const doubled = [...stripItems,...stripItems];
+  track.innerHTML = doubled.map(t=>`<div class="strip-item">${t}</div>`).join('');
+
+  function filterProducts(cat, btn) {
+    document.querySelectorAll('.ftab').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    renderProductCards('#prodGrid', cat==='all' ? PRODUCTS : PRODUCTS.filter(p=>p.cat===cat));
+  }
+  renderProductCards('#prodGrid', PRODUCTS);
+</script>
+</body>
+</html>
